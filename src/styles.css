@@ -1,0 +1,31 @@
+._grid-container {
+  display: grid;
+  grid: repeat(var(--rows), var(--cellDimension)) / repeat(
+      var(--columns),
+      var(--cellDimension)
+    );
+}
+
+._grid-cell {
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  background-size: calc(var(--columns) * 100%) calc(var(--rows) * 100%);
+}
+
+._grid-cell-image {
+  background-image: var(--img);
+  background-position: var(--backgroundPosition);
+}
+
+/* 
+  Get rid of anchor element in order to substitute it
+  with grid.
+*/
+._anchor-hide {
+  position: absolute;
+  left: -1000vw;
+  visibility: hidden;
+}

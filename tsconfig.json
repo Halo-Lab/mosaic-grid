@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "outDir": "dist",
+    "target": "ES2017",
+    "declaration": true,
+    "moduleResolution": "node"
+  }
+}
