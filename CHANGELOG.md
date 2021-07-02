@@ -1,4 +1,10 @@
-# [0.0.2] - 2021-07-02
+# [0.0.3] - 2021-07-02
+
+### Changed
+
+- Separate background position to x-position and y-position.
+
+## [0.0.2] - 2021-07-02
 
 ### Fixed
 

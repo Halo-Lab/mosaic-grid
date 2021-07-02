@@ -60,9 +60,15 @@ export const addCSSProperties = (
         '--img',
         `url(${options.imageSrc})`
       );
+
+      const [x, y] = positionOf((cell as Cell<HTMLSpanElement>).__number);
       (cell as Cell<HTMLSpanElement>).style.setProperty(
-        '--backgroundPosition',
-        positionOf((cell as Cell<HTMLSpanElement>).__number)
+        '--backgroundPositionX',
+        x
+      );
+      (cell as Cell<HTMLSpanElement>).style.setProperty(
+        '--backgroundPositionY',
+        y
       );
     });
   }

@@ -17,7 +17,7 @@
 
 ._grid-cell-image {
   background-image: var(--img);
-  background-position: var(--backgroundPosition);
+  background-position: var(--backgroundPositionX) var(--backgroundPositionY);
 }
 
 /* 
