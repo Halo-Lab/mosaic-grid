@@ -35,8 +35,8 @@ export interface GridOptions {
 
 /** Creates grid instance. */
 export const grid = ({ width, height, cell }: GridOptions): Grid => {
-  const rows = height / cell;
-  const columns = width / cell;
+  const rows = Math.ceil(height / cell);
+  const columns = Math.ceil(width / cell);
   const centerX = width / 2;
   const centerY = height / 2;
 

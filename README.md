@@ -18,7 +18,7 @@ This package allows you transform part of the image in some `mosaic` way.
 
 > Actually it can transform any block without children.
 
-[See an example here](). _WIP_
+[See an example here](https://codesandbox.io/s/mosaic-grid-example-m2cjr).
 
 For this you should call `mosaic` function with options.
 

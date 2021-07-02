@@ -1,6 +1,6 @@
 {
   "name": "mosaic-grid",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Add noise to grid and draw it on it. Can be used to style images.",
   "main": "./index.js",
   "style": "./styles.css",
