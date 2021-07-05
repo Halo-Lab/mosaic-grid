@@ -1,4 +1,10 @@
-# [0.0.3] - 2021-07-02
+# [0.0.4] - 2021-07-05
+
+### Fixed
+
+- Calculating area of figure on first and last columns.
+
+## [0.0.3] - 2021-07-02
 
 ### Changed
 

@@ -33,12 +33,17 @@ export interface GridOptions {
   readonly height: number;
 }
 
+const calculateCellsCount = (cell: number) => (distance: number) =>
+  Math.ceil(distance / cell);
+
 /** Creates grid instance. */
 export const grid = ({ width, height, cell }: GridOptions): Grid => {
   const rows = Math.ceil(height / cell);
   const columns = Math.ceil(width / cell);
   const centerX = width / 2;
   const centerY = height / 2;
+
+  const cellsIn = calculateCellsCount(cell);
 
   return {
     cell,
@@ -48,19 +53,18 @@ export const grid = ({ width, height, cell }: GridOptions): Grid => {
     columns,
 
     rowOf: (cellNumber) => Math.ceil(cellNumber / columns),
-    cellsIn: (distance: number) => Math.ceil(distance / cell),
-    columnOf: (cellNumber) => cellNumber % columns,
+    cellsIn,
+    columnOf: (cellNumber) =>
+      cellNumber % columns === 0 ? columns : cellNumber % columns,
     cells: () => new Array(columns * rows).fill(0).map((_, index) => index + 1),
     cellNumber: ({ x, y }: Position): number =>
-      Math.ceil(x / cell) + (Math.ceil(y / cell) - 1) * columns,
-    actualPosition: ({ dx, dy }: Shift): Position => {
-      const shiftX = centerX * dx;
-      const shiftY = centerY * dy;
-
-      return {
-        x: centerX + shiftX,
-        y: centerY - shiftY,
-      };
-    },
+      // Cells, rows and columns are started from 1, so when
+      // we get 0, then we should return 1 so cell number is
+      // calculated correctly.
+      (cellsIn(x) || 1) + ((cellsIn(y) || 1) - 1) * columns,
+    actualPosition: ({ dx, dy }: Shift): Position => ({
+      x: centerX * (1 + dx),
+      y: centerY * (1 - dy),
+    }),
   };
 };

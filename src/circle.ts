@@ -27,9 +27,8 @@ export const circle: FigureCreator<Circle> = (grid) => (shift, range) => {
       const cellColumn = grid.columnOf(cellNumber);
 
       return (
-        Math.pow(cellsInRadius, 2) >=
-        Math.pow(cellRow - centerCellRow, 2) +
-          Math.pow(cellColumn - centerCellColumn, 2)
+        cellsInRadius ** 2 >=
+        (cellRow - centerCellRow) ** 2 + (cellColumn - centerCellColumn) ** 2
       );
     },
   };
