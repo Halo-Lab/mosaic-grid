@@ -72,7 +72,7 @@ const img = document.querySelector('img');
 mosaic({
   range: 0.4,
   element: img,
-  figure: circle,
+  shape: circle,
   shift: { dx: 0.7, dy: 0.5 },
 });
 ```
