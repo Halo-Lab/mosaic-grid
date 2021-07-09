@@ -1,9 +1,10 @@
 import { grid } from './grid';
+import { Range } from './range';
 import { Shift } from './types';
 import { getSizeFrom } from './sizes';
 import { ANCHOR_CLASS } from './classes';
 import { getAnchorElement } from './anchor_element';
-import { Figure, FigureCreator } from './figure';
+import { Figure, figure, Shape } from './figure';
 import { addCSSProperties, generateHTML } from './html';
 
 export interface MosaicOptions {
@@ -11,14 +12,14 @@ export interface MosaicOptions {
   readonly cell?: number;
   /** Describes figure shift from grid center. */
   readonly shift: Shift;
-  /** Defines size of fugure relative to lowest side of a grid. */
-  readonly range: number;
+  /** Defines size of figure relative to lowest side of a grid. */
+  readonly range: Range;
   /** Width of grid. */
   readonly width?: number;
   /** Height of grid. */
   readonly height?: number;
   /** Function that is used to build figure. */
-  readonly figure: FigureCreator<Figure>;
+  readonly shape: Shape<Figure>;
   /**
    * Element in DOM from which _width_ and _height_
    * can be taken. If _width_, _height_ and _element_
@@ -38,11 +39,11 @@ export const mosaic = ({
   cell = 20,
   width,
   shift,
+  shape,
   range,
   height,
   element,
   effects = [],
-  figure,
 }: MosaicOptions): void => {
   const anchorElement = getAnchorElement(element);
 
@@ -53,18 +54,21 @@ export const mosaic = ({
   });
 
   const gridInstance = grid({
+    cell,
     width: w,
     height: h,
-    cell,
   });
 
-  const figureBoundWithGrid = figure(gridInstance);
+  const shapeInstance = figure(gridInstance)(shift, range)(shape);
 
   const isAnchorElementImage = anchorElement instanceof HTMLImageElement;
 
   const cells = gridInstance.cells().map((cell) => ({
     number: cell,
-    inFigure: figureBoundWithGrid(shift, range).include(cell),
+    inFigure: shapeInstance.include({
+      row: gridInstance.rowOf(cell),
+      column: gridInstance.columnOf(cell),
+    }),
   }));
 
   const createdGridElement = generateHTML(cells, effects);

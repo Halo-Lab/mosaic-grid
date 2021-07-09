@@ -1,4 +1,16 @@
-# [0.0.4] - 2021-07-05
+# [0.0.5] - 2021-07-05
+
+### Added
+
+- `rectangle` and `square` shapes.
+
+### Changed
+
+- Rename _figure_ property of `MosaicOptions` to shape that has the `Shape` type.
+- Rewrite creating figure algorithm. It is now internal.
+- Add ability to provide range as object with `x` and `y` coordinates.
+
+## [0.0.4] - 2021-07-05
 
 ### Fixed
 

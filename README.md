@@ -26,12 +26,14 @@ It is simple object with configuration properties:
 
 ```ts
 interface MosaicOptions {
+  /** Function that is used to build figure. */
+  shape: Shape<Figure>;
   /** Length of cell. By default, it is **20px**. */
   readonly cell?: number;
   /** Describes figure shift from grid center. */
   readonly shift: Shift;
-  /** Defines size of fugure relative to lowest side of a grid. */
-  readonly range: number;
+  /** Defines size of figure relative to lowest side of a grid. */
+  readonly range: Range;
   /** Width of grid. */
   readonly width?: number;
   /** Height of grid. */
@@ -48,25 +50,22 @@ interface MosaicOptions {
    * will be covered by figure.
    */
   readonly effects?: ReadonlyArray<string>;
-
-  /** Function that is used to build figure. */
-  figure: FigureCreator<Figure>;
 }
 ```
 
-You should provide at least four necessary properties: `shift`, `range`, `figure` and `element`. These properties are necessary to draw transformed block as grid and to know where we should insert transformed block. By default, size of block will be taken from provided element, but you can change it by providing `width` and `height` properties.
+You should provide at least four necessary properties: `shift`, `range`, `shape` and `element`. These properties are necessary to draw transformed block as grid and to know where we should insert transformed block. By default, size of block will be taken from provided element, but you can change it by providing `width` and `height` properties.
 
 > Package handles \<img> element specially: it can take image source and gather the image from cells. Width of created block will be natural width of image and for height is the same behavior.
 
 - `cell` property defines dimension of single cell in grid. You can customize it as you need.
 
-- `figure` used to build shape of the area of a block that should be transformed.
+- `shape` used to build shape of the area of a block that should be transformed.
 
 - `shift` parameter describes shift of the center of a circle from grid center. It is object with `dx` and `dy` properties that can be any number from **-1** to **1**.
-- `range` is abstract dimension of size of the figure. It can be any number from **0** to **1**.
+- `range` is abstract dimension of size of the figure. It can be any number from **0** to **1** for figures for equal sizes of sides such as _circle_ or _square_. If figure hasn't equal sizes of sides, then you can pass object with `x` and `y` properties. They are range for _x_ and _y_ axis.
 
 ```js
-import { mosaic } from 'mosaic-grid';
+import { mosaic, circle } from 'mosaic-grid';
 
 const img = document.querySelector('img');
 
@@ -78,7 +77,7 @@ mosaic({
 });
 ```
 
-At that time there is only one figure available - `circle`.
+At that time there are nex figures available - `circle`, `square` and `rectangle`.
 
 After building mosaic on the page you need to import base styles for it. You can do it either via CSS with some preprocessor, like [PostCSS](https://postcss.org/), or if you use JavaScript bundlers, you can import style file directly in `.js` file:
 

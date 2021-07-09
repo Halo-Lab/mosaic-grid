@@ -54,8 +54,7 @@ export const grid = ({ width, height, cell }: GridOptions): Grid => {
 
     rowOf: (cellNumber) => Math.ceil(cellNumber / columns),
     cellsIn,
-    columnOf: (cellNumber) =>
-      cellNumber % columns === 0 ? columns : cellNumber % columns,
+    columnOf: (cellNumber) => cellNumber % columns || columns,
     cells: () => new Array(columns * rows).fill(0).map((_, index) => index + 1),
     cellNumber: ({ x, y }: Position): number =>
       // Cells, rows and columns are started from 1, so when
