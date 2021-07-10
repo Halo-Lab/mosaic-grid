@@ -3,6 +3,7 @@ import { Range } from './range';
 import { Shift } from './types';
 import { getSizeFrom } from './sizes';
 import { ANCHOR_CLASS } from './classes';
+import { indexesToExclude } from './distribution';
 import { getAnchorElement } from './anchor_element';
 import { Figure, figure, Shape } from './figure';
 import { addCSSProperties, generateHTML } from './html';
@@ -32,6 +33,13 @@ export interface MosaicOptions {
    * will be covered by figure.
    */
   readonly effects?: ReadonlyArray<string>;
+
+  /**
+   * Defines amount of cells that will be transformed with
+   * effects. It should be a number from `0` to `1`.
+   * By default, it is equal to `1`.
+   */
+  readonly density?: number;
 }
 
 /** Instantiate mosaic builder. */
@@ -43,6 +51,7 @@ export const mosaic = ({
   range,
   height,
   element,
+  density = 1,
   effects = [],
 }: MosaicOptions): void => {
   const anchorElement = getAnchorElement(element);
@@ -71,7 +80,21 @@ export const mosaic = ({
     }),
   }));
 
-  const createdGridElement = generateHTML(cells, effects);
+  const affectedCells = cells.filter(({ inFigure }) => inFigure);
+  const excludedIndexes = indexesToExclude(affectedCells.length, density);
+
+  const filteredCells = affectedCells
+    .filter((_, index) => !excludedIndexes.includes(index))
+    .map(({ number }) => number);
+
+  const createdGridElement = generateHTML(
+    cells.map((cell) =>
+      cell.inFigure && !filteredCells.includes(cell.number)
+        ? { ...cell, inFigure: false }
+        : cell
+    ),
+    effects
+  );
 
   anchorElement.after(
     addCSSProperties(gridInstance, createdGridElement, {
