@@ -1,4 +1,10 @@
-# [0.0.5] - 2021-07-05
+# Unreleased
+
+### Added
+
+- `density` property to control count of cells in figure that should be changed.
+
+## [0.0.5] - 2021-07-05
 
 ### Added
 

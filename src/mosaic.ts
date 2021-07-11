@@ -1,9 +1,9 @@
 import { grid } from './grid';
 import { Range } from './range';
 import { Shift } from './types';
+import { finalCells } from './distribution';
 import { getSizeFrom } from './sizes';
 import { ANCHOR_CLASS } from './classes';
-import { indexesToExclude } from './distribution';
 import { getAnchorElement } from './anchor_element';
 import { Figure, figure, Shape } from './figure';
 import { addCSSProperties, generateHTML } from './html';
@@ -72,27 +72,8 @@ export const mosaic = ({
 
   const isAnchorElementImage = anchorElement instanceof HTMLImageElement;
 
-  const cells = gridInstance.cells().map((cell) => ({
-    number: cell,
-    inFigure: shapeInstance.include({
-      row: gridInstance.rowOf(cell),
-      column: gridInstance.columnOf(cell),
-    }),
-  }));
-
-  const affectedCells = cells.filter(({ inFigure }) => inFigure);
-  const excludedIndexes = indexesToExclude(affectedCells.length, density);
-
-  const filteredCells = affectedCells
-    .filter((_, index) => !excludedIndexes.includes(index))
-    .map(({ number }) => number);
-
   const createdGridElement = generateHTML(
-    cells.map((cell) =>
-      cell.inFigure && !filteredCells.includes(cell.number)
-        ? { ...cell, inFigure: false }
-        : cell
-    ),
+    finalCells(gridInstance, shapeInstance, density),
     effects
   );
 
