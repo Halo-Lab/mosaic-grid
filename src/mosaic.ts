@@ -33,7 +33,6 @@ export interface MosaicOptions {
    * will be covered by figure.
    */
   readonly effects?: ReadonlyArray<string>;
-
   /**
    * Defines amount of cells that will be transformed with
    * effects. It should be a number from `0` to `1`.
